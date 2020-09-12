@@ -1,7 +1,5 @@
 package com.abeldevelop.course.ajgspringcloud.item.api.controller.item.resource;
 
-import java.io.Serializable;
-import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -17,12 +15,9 @@ import lombok.ToString;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
-public class ProductResponseResource implements Serializable {
+public class ItemResource {
 
-  private static final long serialVersionUID = 1L;
-
-  private Long id;
-  private String name;
-  private Double price;
-  private LocalDate createAt;
+  private ProductResource product;
+  private Integer amount;
+  private Double total;
 }

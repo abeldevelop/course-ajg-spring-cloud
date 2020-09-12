@@ -1,11 +1,17 @@
 package com.abeldevelop.course.ajgspringcloud.products.service;
 
-import com.abeldevelop.course.ajgspringcloud.products.api.controller.product.resource.ProductResponseResource;
+import com.abeldevelop.course.ajgspringcloud.products.api.controller.product.resource.ProductResource;
 import java.util.List;
 
 public interface ProductService {
 
-  List<ProductResponseResource> findAll();
+  List<ProductResource> findAll();
 
-  ProductResponseResource findById(Long id);
+  ProductResource findById(Long id);
+
+  ProductResource create(ProductResource productResource);
+
+  ProductResource update(Long id, ProductResource productResource);
+
+  void deleteById(Long id);
 }

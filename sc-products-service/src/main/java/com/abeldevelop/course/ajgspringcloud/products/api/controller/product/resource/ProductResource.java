@@ -17,7 +17,7 @@ import lombok.ToString;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
-public class ProductResponseResource implements Serializable {
+public class ProductResource implements Serializable {
 
   private static final long serialVersionUID = 1L;
 

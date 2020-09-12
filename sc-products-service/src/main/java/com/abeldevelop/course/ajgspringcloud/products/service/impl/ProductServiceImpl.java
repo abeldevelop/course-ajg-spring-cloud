@@ -1,8 +1,9 @@
 package com.abeldevelop.course.ajgspringcloud.products.service.impl;
 
-import com.abeldevelop.course.ajgspringcloud.products.api.controller.product.resource.ProductResponseResource;
+import com.abeldevelop.course.ajgspringcloud.products.api.controller.product.resource.ProductResource;
 import com.abeldevelop.course.ajgspringcloud.products.exception.NotFoundException;
 import com.abeldevelop.course.ajgspringcloud.products.mapper.ProductMapper;
+import com.abeldevelop.course.ajgspringcloud.products.model.ProductEntity;
 import com.abeldevelop.course.ajgspringcloud.products.repository.ProductRepository;
 import com.abeldevelop.course.ajgspringcloud.products.service.ProductService;
 import java.util.List;
@@ -22,24 +23,48 @@ public class ProductServiceImpl implements ProductService {
 
   @Transactional(readOnly = true)
   @Override
-  public List<ProductResponseResource> findAll() {
+  public List<ProductResource> findAll() {
     return productRepository
         .findAll()
         .stream()
-        .map(productMapper::mapEntityToResource)
+        .map(productMapper::map)
         .collect(Collectors.toList());
   }
 
   @Transactional(readOnly = true)
   @Override
-  public ProductResponseResource findById(Long id) {
-    return productMapper.mapEntityToResource(
-        productRepository
-            .findById(id)
-            .orElseThrow(
-                () -> {
-                  log.warn("No exist Product with ID: {}", id);
-                  return new NotFoundException("Product Not Found");
-                }));
+  public ProductResource findById(Long id) {
+    return productMapper.map(find(id));
+  }
+
+  @Transactional
+  @Override
+  public ProductResource create(ProductResource productResource) {
+    return productMapper.map(productRepository.save(productMapper.map((productResource))));
+  }
+
+  @Override
+  public ProductResource update(Long id, ProductResource productResource) {
+    ProductEntity productEntity = find(id);
+    productEntity.setName(productResource.getName());
+    productEntity.setPrice(productResource.getPrice());
+    return productMapper.map(productRepository.save(productEntity));
+  }
+
+  @Transactional
+  @Override
+  public void deleteById(Long id) {
+    ProductEntity productEntity = find(id);
+    productRepository.delete(productEntity);
+  }
+
+  private ProductEntity find(Long id) {
+    return productRepository
+        .findById(id)
+        .orElseThrow(
+            () -> {
+              log.warn("No exist Product with ID: {}", id);
+              return new NotFoundException("Product Not Found");
+            });
   }
 }
