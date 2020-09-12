@@ -1,0 +1,12 @@
+server:
+  port: 8888
+
+
+spring:
+  application:
+    name: sc-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/abeldevelop/course-ajg-spring-cloud-config-repository
